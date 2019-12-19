@@ -83,7 +83,7 @@ describe('cards routes', () => {
       });
   });
 
-  it('get all cards', () => {
+  it('gets all cards', () => {
     return request(app)
       .get('/api/v1/cards')
       .then(res => {
@@ -101,6 +101,45 @@ describe('cards routes', () => {
             __v: 0
           }
         ]);
+      });
+  });
+
+  it('updates a card', () => {
+    return request(app)
+      .patch(`/api/v1/cards/${card.id}`)
+      .send({ name: 'Bad Card' })
+      .then(res => {
+        expect(res.body).toEqual({
+          _id: card.id,
+          name: 'Bad Card',
+          set: 'lol',
+          setType: 'expansion',
+          cmc: 3,
+          releaseDate: '2020-01-24T08:00:00.000Z',
+          types: ['Creature'],
+          subtypes: ['Human', 'Warrior'],
+          colors: ['G'],
+          __v: 0
+        });
+      });
+  });
+
+  it('deletes a card', () => {
+    return request(app)
+      .delete(`/api/v1/cards/${card.id}`)
+      .then(res => {
+        expect(res.body).toEqual({
+          _id: card.id,
+          name: 'Greatest Card',
+          set: 'lol',
+          setType: 'expansion',
+          cmc: 3,
+          releaseDate: '2020-01-24T08:00:00.000Z',
+          types: ['Creature'],
+          subtypes: ['Human', 'Warrior'],
+          colors: ['G'],
+          __v: 0
+        });
       });
   });
 });
